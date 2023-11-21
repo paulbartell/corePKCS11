@@ -17,6 +17,14 @@ target_include_directories(
 )
 target_link_libraries(target_lib INTERFACE pkcs11_api)
 
+target_compile_options(target_lib
+    INTERFACE
+        -Werror
+        -Wformat
+        # -Wformat-overflow
+        # -Wformat-truncation
+)
+
 add_library(target_lib_mb2 STATIC)
 target_link_libraries(target_lib_mb2 PRIVATE target_lib MbedTLS2::mbedcrypto)
 
@@ -42,14 +50,16 @@ target_include_directories(
     INTERFACE "${CMAKE_CURRENT_LIST_DIR}"
 )
 
+
+
 set_source_files_properties(
     "${MODULE_ROOT_DIR}/source/portable/mbedtls/core_pkcs11_mbedtls.c"
-    PROPERTIES COMPILE_FLAGS "-Wno-pedantic -Wno-error"
+    PROPERTIES COMPILE_FLAGS "-Wno-pedantic"
 )
 
 set_source_files_properties(
     "${CORE_PKCS11_3RDPARTY_LOCATION}/mbedtls_utils/mbedtls_utils.c"
-    PROPERTIES COMPILE_FLAGS "-Wno-pedantic -Wno-error"
+    PROPERTIES COMPILE_FLAGS "-Wno-pedantic"
 )
 
 # ====================================  Mbedtls 2.x binary ========================================
